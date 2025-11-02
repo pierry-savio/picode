@@ -20,7 +20,6 @@ public class Code {
 	public Code (Id id) throws IOException {
 		this.codeDir = id.getDir();
 		this.id = id;
-		this.dateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss"));
 	}
 	
 	public Code (String txt, String name, Id id) throws IOException {
@@ -29,7 +28,6 @@ public class Code {
 		this.codeDir = id.getDir();
 		this.id = id;
 		
-		this.dateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss"));
 		this.code = encoder(txt);
 	}
 	
@@ -39,8 +37,16 @@ public class Code {
 		this.code = codeDir;	
 		this.id = id;
 		
-		this.dateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss"));
 		this.code = encoder(txt);
+	}
+	
+	public Code (String txt, String name, String codeDir, Id id, String dateTime, String code) throws IOException {
+		this.txt = txt;
+		this.name = name;
+		this.code = codeDir;	
+		this.id = id;
+		this.dateTime = dateTime;
+		this.code = code;
 	}
 
 	public String getTxt() {
@@ -81,8 +87,12 @@ public class Code {
 		int n3 = 0;
 		
 		//date time of now formatted
+		if (dateTime == null) {
+			dateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss"));
+		}
+		
 		txt = dateTime + ": " + txt;
-        
+		
 		//n2 and n3
 		String code = "";
 		

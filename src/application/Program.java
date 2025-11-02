@@ -13,24 +13,11 @@ public class Program {
 
 	public static void main(String[] args) {
 		
-		/*	
-			██████   ██  ██████  ██████  ██████  ███████ 
-			██   ██ ███ ██      ██  ████ ██   ██ ██      
-			██████   ██ ██      ██ ██ ██ ██   ██ ███████ 
-			██       ██ ██      ████  ██ ██   ██      ██ 
-			██       ██  ██████  ██████  ██████  ███████                                                                                                                                              
-		*/
-		
 		cleanScreen();
 		
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println("██████   ██  ██████  ██████  ██████  ███████");
-		System.out.println("██   ██ ███ ██      ██  ████ ██   ██ ██     ");
-		System.out.println("██████   ██ ██      ██ ██ ██ ██   ██ ███████");
-		System.out.println("██       ██ ██      ████  ██ ██   ██      ██");
-		System.out.println("██       ██  ██████  ██████  ██████  ███████");
-		System.out.println("               - by Pierry -                ");
+		printLogo();
 		
 		System.out.println();
 		
@@ -48,7 +35,7 @@ public class Program {
 		
 		System.out.println();
 		
-		program(sc, pc, true);
+		program(sc, pc);
 		
 		}
 		catch (Exception e) {
@@ -57,17 +44,20 @@ public class Program {
 		
 	}
 	
-	public static void program(Scanner sc, Picode pc, boolean run) throws IOException {
+	public static void program(Scanner sc, Picode pc) throws IOException {
+		
+		boolean run = true;
 		
 		while (run) {
 			cleanScreen(30);
-			System.out.println(" # Options # ");
-			System.out.println("Encoder --- 1");
-			System.out.println("Decoder --- 2");
-			System.out.println("See id ---- 3");
-			System.out.println("Read file - 4");
-			System.out.println("Leave ----- 5");
-			System.out.print  ("N: -------- ");
+			System.out.println(" #  Options  # ");
+			System.out.println("Encoder ----- 1");
+			System.out.println("Decoder ----- 2");
+			System.out.println("See id ------ 3");
+			System.out.println("Read file --- 4");
+			System.out.println("Saved Codes - 5");
+			System.out.println("Leave ------- 6");
+			System.out.print  ("N: ---------- ");
 			int n = sc.nextInt();
 			
 			sc.nextLine();
@@ -100,8 +90,12 @@ public class Program {
 						
 						System.out.println();
 						
-						System.out.print("File dir: ");
+						System.out.print("File dir ('s' for same): ");
 						String fileDir = sc.nextLine();
+						
+						if (fileDir.equals("s")) {
+							fileDir = pc.getId().getDir();
+						}
 						
 						System.out.print("File name: ");
 						String fileName = sc.nextLine();
@@ -111,6 +105,10 @@ public class Program {
 						System.out.println();
 						
 						System.out.println("Archive saved sucessfully!");
+						
+						System.out.println();
+						
+						System.out.println("press enter to continue...");
 						
 						sc.nextLine();
 					}
@@ -130,6 +128,10 @@ public class Program {
 					String txt2 = pc.decoder(code2);
 					System.out.println("Text: " + txt2);
 					
+					System.out.println();
+					
+					System.out.println("press enter to continue...");
+					
 					sc.nextLine();
 				break;
 				
@@ -138,6 +140,10 @@ public class Program {
 					System.out.println("# ID #");
 					System.out.println();
 					System.out.println(pc);
+					
+					System.out.println();
+					
+					System.out.println("press enter to continue...");
 					
 					sc.nextLine();
 				break;
@@ -148,17 +154,31 @@ public class Program {
 					
 					System.out.println();
 					
-					System.out.print("File dir: ");
+					System.out.print("File dir ('s' for same): ");
 					String fileDir = sc.nextLine();
+					
+					if (fileDir.equals("s")) {
+						fileDir = pc.getId().getDir();
+					}
+					
+					System.out.println();
+					
+					System.out.println("Saved Files: ");
+					
+					for (int i = 0; i < pc.getCodes().size(); i++) {
+						System.out.println("#" + (i+1) + ": " + pc.getCodes().get(i).getName());
+					}
+					
+					System.out.println();
 					
 					System.out.print("File name: ");
 					String fileName = sc.nextLine();
 					
+					System.out.println();
+					
 					if (new File(fileDir + "\\" + fileName + ".txt").exists()) {
 					
 						BufferedReader br = new BufferedReader (new FileReader(fileDir + "\\" + fileName + ".txt"));
-						
-						System.out.println();
 						
 						String content = br.readLine();
 						
@@ -167,22 +187,38 @@ public class Program {
 						System.out.println();
 						
 						System.out.println("Decode: " + pc.decoder(content));
-						br.close();	
-						
-						sc.nextLine();
+						br.close();
 					}
 					else {
-						
-						System.out.println();
-						
 						System.out.println("The archive does not exist!");
-					
-						sc.nextLine();
 					}
+					
+					System.out.println();
+					
+					System.out.println("press enter to continue...");
+					
+					sc.nextLine();
 					
 				break;
 				
 				case 5:
+					cleanScreen(30);
+					System.out.println("# SAVED CODES #");
+					System.out.println();
+					
+					for (int i = 0; i < pc.getCodes().size(); i++) {
+						System.out.println("#" + (i+1) + ": " + pc.getCodes().get(i).getName());
+					}
+					
+					System.out.println();
+					
+					System.out.println("press enter to continue...");
+					
+					sc.nextLine();
+					
+				break;
+				
+				case 6:
 					cleanScreen(30);
 					System.out.println("# LEAVE #");
 					System.out.println();
@@ -193,6 +229,15 @@ public class Program {
 			System.out.println();
 		}
 		sc.close();
+	}
+	
+	public static void printLogo() {
+		System.out.println("██████   ██  ██████  ██████  ██████  ███████");
+		System.out.println("██   ██ ███ ██      ██  ████ ██   ██ ██     ");
+		System.out.println("██████   ██ ██      ██ ██ ██ ██   ██ ███████");
+		System.out.println("██       ██ ██      ████  ██ ██   ██      ██");
+		System.out.println("██       ██  ██████  ██████  ██████  ███████");
+		System.out.println("               - by Pierry -                ");
 	}
 	
 	public static void cleanScreen (int size) {
