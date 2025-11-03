@@ -834,10 +834,10 @@ public class Code {
 	
 	public void saveCode(String name, String codeDir) throws IOException {
 		
-		this.name = name;
+		this.name = name + ".txt";
 		this.codeDir = codeDir;
 		
-		BufferedWriter bw = new BufferedWriter(new FileWriter(codeDir + "\\" + name + ".txt"));
+		BufferedWriter bw = new BufferedWriter(new FileWriter(codeDir + "\\" + this.name));
 		bw.write(code);
 		bw.close();
 	}

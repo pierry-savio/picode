@@ -30,14 +30,22 @@ public class Picode {
 
 	public void pullCodes() throws IOException {
 		
-		File pasta = new File(id.getDir());
+		File folder = new File(id.getDir());
 
-        for (File f : pasta.listFiles()) {
+        for (File f : folder.listFiles()) {
+        	
             if (f.isFile() && f.getName().endsWith(".txt") && !f.getName().equals("PicodeId.txt")) {
 
                 String code = Files.readString(f.toPath());
 
-                String dateTime = code.length() >= 92 ? code.substring(0, 92) : code;
+                String dateTime;
+                
+                if (code.length() >= 92) {
+                	dateTime = code.substring(0, 92);
+                }
+                else {
+                	dateTime = code;
+                }
 
                 Code codeObj = new Code(new Code(id).decoder(code), f.getName(), f.getAbsolutePath(), id, dateTime, code);
 
