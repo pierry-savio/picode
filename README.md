@@ -75,10 +75,10 @@ git clone https://github.com/pierry-savio/picode.git
 
 ```bash
 java -jar Picode.jar
+```
 
 And that's it!
 Picode will start running on your machine via terminal :)
-```
 
 ---
 
